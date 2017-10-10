@@ -4,28 +4,36 @@ import Data.Char
 
 import Prelude hiding (gcd)
 
-{- 
-The advantage of symmetric encryption schemes like AES is that they are efficient 
-and we can encrypt data of arbitrary size. The problem is how to share the key. 
-The flaw of the RSA is that it is slow and we can only encrypt data of size lower 
+{-
+The advantage of symmetric encryption schemes like AES is that they are efficient
+and we can encrypt data of arbitrary size. The problem is how to share the key.
+The flaw of the RSA is that it is slow and we can only encrypt data of size lower
 than the RSA modulus n, usually around 1024 bits (64 bits for this exercise!).
 
-We usually encrypt messages with a private encryption scheme like AES-256 with 
-a symmetric key k. The key k of fixed size 256 bits for example is then exchanged 
-via the aymmetric RSA. 
+We usually encrypt messages with a private encryption scheme like AES-256 with
+a symmetric key k. The key k of fixed size 256 bits for example is then exchanged
+via the aymmetric RSA.
 -}
 
 -------------------------------------------------------------------------------
 -- PART 1 : asymmetric encryption
 
 gcd :: Int -> Int -> Int
-gcd m n = error "TODO: implement gcd"
+gcd m n
+    | n == 0       = m
+    | otherwise    = gcd n (m `mod` n)
 
 phi :: Int -> Int
-phi m = error "TODO: implement phi"
+phi m
+    = count range
+      where
+          count :: [Int] -> Int
+          count []    = 0
+          count (x : xs) = 1 + count xs
+          range = [p | p <- [1..m], gcd p m == 1]
 
 --
--- Calculates (u, v, d) the gcd (d) and Bezout coefficients (u and v) 
+-- Calculates (u, v, d) the gcd (d) and Bezout coefficients (u and v)
 -- such that au + bv = d
 --
 extendedGCD :: Int -> Int -> ((Int, Int), Int)
@@ -36,9 +44,13 @@ inverse :: Int -> Int -> Int
 inverse a m = error "TODO: implement inverse"
 
 -- Calculates (a^k mod m)
--- 
+--
 modPow :: Int -> Int -> Int -> Int
-modPow a k m = error "TODO: implement modPow"
+modPow a k m
+    | k == 0    = 1 `mod` m
+    | even k    = modPow (a^2 `mod` m) (k `div` 2) m
+    | otherwise = modPow a (k - 1) m * a `mod` m
+
 
 -- Returns the smallest integer that is coprime with phi
 smallestCoPrimeOf :: Int -> Int
