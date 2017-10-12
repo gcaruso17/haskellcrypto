@@ -37,7 +37,11 @@ phi m
 -- such that au + bv = d
 --
 extendedGCD :: Int -> Int -> ((Int, Int), Int)
-extendedGCD a b = error "TODO: implement extendedGCD"
+extendedGCD a 0           = ((1, 0), a)
+extendedGCD a b           = ((v', u' - q * v'), gcd)
+    where
+        (q, r)            = quotRem a b
+        ((u', v'), gcd)   = extendedGCD b r
 
 -- Inverse of a modulo m
 inverse :: Int -> Int -> Int
