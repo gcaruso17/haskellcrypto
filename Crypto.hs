@@ -45,7 +45,9 @@ extendedGCD a b           = ((v', u' - q * v'), gcd)
 
 -- Inverse of a modulo m
 inverse :: Int -> Int -> Int
-inverse a m = error "TODO: implement inverse"
+inverse a m                       = bcoefficient `mod` m
+    where
+        ((bcoefficient, _), _)    = extendedGCD a m
 
 -- Calculates (a^k mod m)
 --
