@@ -128,7 +128,13 @@ ecbDecrypt key (x : xs) = (substract x key) : ecbDecrypt key xs
 -- last argument is message m as a string
 --
 cbcEncrypt :: Char -> Char -> String -> String
-cbcEncrypt key iv m = error "TODO: implement cbcEncrypt"
+cbcEncrypt key iv ""       = ""
+cbcEncrypt key iv (x : xs) = c1 : cbcEncrypt key c1 xs
+                             where
+                                 c1    = (add (add x iv) key)
 
 cbcDecrypt :: Char -> Char -> String -> String
-cbcDecrypt key iv m = error "TODO: implement cbcDecrypt"
+cbcDecrypt key iv ""       = ""
+cbcDecrypt key iv (c : cs) = x1 : cbcDecrypt key c cs
+                             where
+                                 x1    = ((substract c key) `substract` iv)
