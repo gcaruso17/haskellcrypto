@@ -120,7 +120,8 @@ ecbEncrypt key "" = ""
 ecbEncrypt key (x : xs)  = (add x key) : ecbEncrypt key xs
 
 ecbDecrypt :: Char -> String -> String
-ecbDecrypt key m = error "TODO: implement ecbDecrypt"
+ecbDecrypt key "" = ""
+ecbDecrypt key (x : xs) = (substract x key) : ecbDecrypt key xs
 
 -- cbc (cipherblock chaining) encryption with block size of a letter
 -- initialisation vector iv is a letter
