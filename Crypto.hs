@@ -28,9 +28,9 @@ phi m
     = count range
       where
           count :: [Int] -> Int
-          count []    = 0
+          count []       = 0
           count (x : xs) = 1 + count xs
-          range = [p | p <- [1..m], gcd p m == 1]
+          range          = [p | p <- [1..m], gcd p m == 1]
 
 --
 -- Calculates (u, v, d) the gcd (d) and Bezout coefficients (u and v)
@@ -116,11 +116,11 @@ substract a b = toChar ((aPos - bPos) `mod` modulo)
 -- ecb (electronic codebook) with block size of a letter
 --
 ecbEncrypt :: Char -> String -> String
-ecbEncrypt key "" = ""
+ecbEncrypt key ""        = ""
 ecbEncrypt key (x : xs)  = (add x key) : ecbEncrypt key xs
 
 ecbDecrypt :: Char -> String -> String
-ecbDecrypt key "" = ""
+ecbDecrypt key ""       = ""
 ecbDecrypt key (x : xs) = (substract x key) : ecbDecrypt key xs
 
 -- cbc (cipherblock chaining) encryption with block size of a letter
