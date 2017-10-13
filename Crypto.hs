@@ -35,17 +35,17 @@ phi m = count range
 -- such that au + bv = d
 --
 extendedGCD :: Int -> Int -> ((Int, Int), Int)
-extendedGCD a 0 = ((1, 0), a)
-extendedGCD a b = ((v', u' - q * v'), gcd)
-                  where
-                      (q, r)            = quotRem a b
-                      ((u', v'), gcd)   = extendedGCD b r
+extendedGCD a 0           = ((1, 0), a)
+extendedGCD a b           = ((v', u' - q * v'), gcd)
+    where
+        (q, r)            = quotRem a b
+        ((u', v'), gcd)   = extendedGCD b r
 
 -- Inverse of a modulo m
 inverse :: Int -> Int -> Int
-inverse a m = bcoefficient `mod` m
-              where
-                  ((bcoefficient, _), _)    = extendedGCD a m
+inverse a m                       = bcoefficient `mod` m
+    where
+        ((bcoefficient, _), _)    = extendedGCD a m
 
 -- Calculates (a^k mod m)
 --
