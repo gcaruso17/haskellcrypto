@@ -37,11 +37,17 @@ phi m
 -- such that au + bv = d
 --
 extendedGCD :: Int -> Int -> ((Int, Int), Int)
-extendedGCD a b = error "TODO: implement extendedGCD"
+extendedGCD a 0           = ((1, 0), a)
+extendedGCD a b           = ((v', u' - q * v'), gcd)
+    where
+        (q, r)            = quotRem a b
+        ((u', v'), gcd)   = extendedGCD b r
 
 -- Inverse of a modulo m
 inverse :: Int -> Int -> Int
-inverse a m = error "TODO: implement inverse"
+inverse a m                       = bcoefficient `mod` m
+    where
+        ((bcoefficient, _), _)    = extendedGCD a m
 
 -- Calculates (a^k mod m)
 --
@@ -54,19 +60,26 @@ modPow a k m
 
 -- Returns the smallest integer that is coprime with phi
 smallestCoPrimeOf :: Int -> Int
-smallestCoPrimeOf phi = error "TODO: implement smallestCoPrimeOf"
+-- Pre: a > 0
+smallestCoPrimeOf a = head [b | b <- [2..], gcd a b == 1]
 
 -- Generates keys pairs (public, private) = ((e, n), (d, n))
 -- given two "large" distinct primes, p and q
 genKeys :: Int -> Int -> ((Int, Int), (Int, Int))
-genKeys p q = error "TODO: implement genKeys"
+genKeys p q = (publicKey, privateKey)
+              where
+                  publicKey     = (e, n)
+                  privateKey    = (d, n)
+                  n             = p * q
+                  e             = smallestCoPrimeOf ((p - 1) * (q - 1))
+                  d             = inverse e ((p - 1) * (q - 1))
 
 -- RSA encryption/decryption; (e, n) is the public key
 rsaEncrypt :: Int -> (Int, Int) -> Int
-rsaEncrypt m (e, n) = error "TODO: implement rsaEncrypt"
+rsaEncrypt x (e, n) = modPow x e n
 
 rsaDecrypt :: Int -> (Int, Int) -> Int
-rsaDecrypt = error "TODO: implement rsaDecrypt"
+rsaDecrypt c (d, n) = modPow c d n 
 
 
 -------------------------------------------------------------------------------
