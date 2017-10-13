@@ -19,35 +19,33 @@ via the aymmetric RSA.
 -- PART 1 : asymmetric encryption
 
 gcd :: Int -> Int -> Int
-gcd m n
-    | n == 0       = m
-    | otherwise    = gcd n (m `mod` n)
+gcd m 0 = m
+gcd m n = gcd n (m `mod` n)
 
 phi :: Int -> Int
-phi m
-    = count range
-      where
-          count :: [Int] -> Int
-          count []       = 0
-          count (x : xs) = 1 + count xs
-          range          = [p | p <- [1..m], gcd p m == 1]
+phi m = count range
+        where
+            count :: [Int] -> Int
+            count []       = 0
+            count (x : xs) = 1 + count xs
+            range          = [p | p <- [1..m], gcd p m == 1]
 
 --
 -- Calculates (u, v, d) the gcd (d) and Bezout coefficients (u and v)
 -- such that au + bv = d
 --
 extendedGCD :: Int -> Int -> ((Int, Int), Int)
-extendedGCD a 0           = ((1, 0), a)
-extendedGCD a b           = ((v', u' - q * v'), gcd)
-    where
-        (q, r)            = quotRem a b
-        ((u', v'), gcd)   = extendedGCD b r
+extendedGCD a 0 = ((1, 0), a)
+extendedGCD a b = ((v', u' - q * v'), gcd)
+                  where
+                      (q, r)            = quotRem a b
+                      ((u', v'), gcd)   = extendedGCD b r
 
 -- Inverse of a modulo m
 inverse :: Int -> Int -> Int
-inverse a m                       = bcoefficient `mod` m
-    where
-        ((bcoefficient, _), _)    = extendedGCD a m
+inverse a m = bcoefficient `mod` m
+              where
+                  ((bcoefficient, _), _)    = extendedGCD a m
 
 -- Calculates (a^k mod m)
 --
@@ -104,10 +102,10 @@ add a b = toChar ((aPos + bPos) `mod` modulo)
 -- "substracts" two letters
 substract :: Char -> Char -> Char
 substract a b = toChar ((aPos - bPos) `mod` modulo)
-          where
-              aPos      = toInt a
-              bPos      = toInt b
-              modulo    = toInt 'z' + 1
+                where
+                    aPos      = toInt a
+                    bPos      = toInt b
+                    modulo    = toInt 'z' + 1
 
 -- the next functions present
 -- 2 modes of operation for block ciphers : ECB and CBC
