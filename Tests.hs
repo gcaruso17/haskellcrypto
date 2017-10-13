@@ -127,6 +127,8 @@ ecbEncryptTestCases
     , ('d', "w") ==> "z"
     , ('x', "bonjour") ==> "ylkglro"
     , ('k', "hello") ==> "rovvy"
+    , ('a', "Haskell") ==> "baskell"
+    , ('d', "AuLiC") ==> "xxilz"
     ]
 
 ecbDecryptTestCases

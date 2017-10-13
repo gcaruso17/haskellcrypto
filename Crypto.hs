@@ -79,7 +79,7 @@ rsaEncrypt :: Int -> (Int, Int) -> Int
 rsaEncrypt x (e, n) = modPow x e n
 
 rsaDecrypt :: Int -> (Int, Int) -> Int
-rsaDecrypt c (d, n) = modPow c d n 
+rsaDecrypt c (d, n) = modPow c d n
 
 
 -------------------------------------------------------------------------------
@@ -87,19 +87,27 @@ rsaDecrypt c (d, n) = modPow c d n
 
 -- Returns position of a letter in the alphabet
 toInt :: Char -> Int
-toInt a = error "TODO: implement toInt"
+toInt a = ord a - ord 'a'
 
 -- Returns the n^th letter
 toChar :: Int -> Char
-toChar n = error "TODO: implement toChar"
+toChar n = chr (ord 'a' + n)
 
 -- "adds" two letters
 add :: Char -> Char -> Char
-add a b = error "TODO: implement add"
+add a b = toChar ((aPos + bPos) `mod` modulo)
+          where
+              aPos      = toInt a
+              bPos      = toInt b
+              modulo    = toInt 'z' + 1
 
 -- "substracts" two letters
 substract :: Char -> Char -> Char
-substract a b = error "TODO: implement substract"
+substract a b = toChar ((aPos - bPos) `mod` modulo)
+          where
+              aPos      = toInt a
+              bPos      = toInt b
+              modulo    = toInt 'z' + 1
 
 -- the next functions present
 -- 2 modes of operation for block ciphers : ECB and CBC
@@ -108,7 +116,8 @@ substract a b = error "TODO: implement substract"
 -- ecb (electronic codebook) with block size of a letter
 --
 ecbEncrypt :: Char -> String -> String
-ecbEncrypt key m = error "TODO: implement ecbEncrypt"
+ecbEncrypt key "" = ""
+ecbEncrypt key (x : xs)  = (add x key) : ecbEncrypt key xs
 
 ecbDecrypt :: Char -> String -> String
 ecbDecrypt key m = error "TODO: implement ecbDecrypt"
